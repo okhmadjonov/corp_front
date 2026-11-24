@@ -17,11 +17,19 @@ let refreshing: Promise<string> | null = null
 async function refreshAccessToken(): Promise<string> {
   const refresh = tokenStorage.getRefresh()
   if (!refresh) throw new Error('No refresh token')
-  const { data } = await axios.post<Tokens>(`${baseURL}/auth/refresh`, {
-    refresh_token: refresh,
-  })
-  tokenStorage.set(data.access_token, data.refresh_token)
-  return data.access_token
+  try {
+    const { data } = await axios.post<Tokens>(`${baseURL}/auth/refresh`, {
+      refresh_token: refresh,
+    })
+    tokenStorage.set(data.access_token, data.refresh_token)
+    return data.access_token
+  } catch (err) {
+    // Boshqa tab shu orada tokenni yangilagan bo'lsa (rotation), bizniki bekor
+    // bo'lgan — lekin localStorage'da yangisi bor, chiqib ketmasdan o'shani olamiz.
+    const access = tokenStorage.getAccess()
+    if (access && tokenStorage.getRefresh() !== refresh) return access
+    throw err
+  }
 }
 
 type RetryConfig = InternalAxiosRequestConfig & { _retry?: boolean }
