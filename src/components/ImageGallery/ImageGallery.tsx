@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { SmartImage } from "@/components/SmartImage/SmartImage";
 import type { GalleryImage } from "@/types/catalog";
 import { mediaUrl } from "@/utils/media";
 import styles from "./ImageGallery.module.scss";
@@ -21,28 +22,71 @@ export function ImageGallery({ images, alt }: Props) {
   );
   const [index, setIndex] = useState(0);
 
-  if (sorted.length === 0) return <div className={styles.empty}>Rasm yo'q</div>;
+  if (sorted.length === 0) {
+    return (
+      <div className={styles.gallery}>
+        <SmartImage src={null} alt={alt} ratio="3 / 4" />
+      </div>
+    );
+  }
 
-  const current = sorted[Math.min(index, sorted.length - 1)];
+  const safeIndex = Math.min(index, sorted.length - 1);
+  const current = sorted[safeIndex];
+  const many = sorted.length > 1;
+
+  const prev = () => setIndex((safeIndex - 1 + sorted.length) % sorted.length);
+  const next = () => setIndex((safeIndex + 1) % sorted.length);
 
   return (
     <div className={styles.gallery}>
       <div className={styles.main}>
-        <img src={mediaUrl(current.url)} alt={alt} />
+        <SmartImage
+          src={mediaUrl(current.url)}
+          alt={alt}
+          ratio="3 / 4"
+          priority
+        />
+
+        {many && (
+          <>
+            <button
+              type="button"
+              className={`${styles.arrow} ${styles.left}`}
+              onClick={prev}
+              aria-label="Oldingi rasm"
+            >
+              ‹
+            </button>
+            <button
+              type="button"
+              className={`${styles.arrow} ${styles.right}`}
+              onClick={next}
+              aria-label="Keyingi rasm"
+            >
+              ›
+            </button>
+            <span className={styles.counter}>
+              {safeIndex + 1} / {sorted.length}
+            </span>
+          </>
+        )}
       </div>
 
-      {sorted.length > 1 && (
+      {many && (
         <div className={styles.thumbs}>
           {sorted.map((img, i) => (
             <button
               key={img.id}
               type="button"
               className={
-                i === index ? `${styles.thumb} ${styles.active}` : styles.thumb
+                i === safeIndex
+                  ? `${styles.thumb} ${styles.active}`
+                  : styles.thumb
               }
               onClick={() => setIndex(i)}
+              aria-label={`${i + 1}-rasm`}
             >
-              <img src={mediaUrl(img.url)} alt="" />
+              <SmartImage src={mediaUrl(img.url)} alt="" ratio="1 / 1" />
             </button>
           ))}
         </div>

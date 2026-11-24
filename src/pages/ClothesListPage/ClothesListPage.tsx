@@ -2,10 +2,13 @@ import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { catalogApi } from "@/api/catalog";
 import { Pagination } from "@/components/Pagination/Pagination";
 import { ProductCard } from "@/components/ProductCard/ProductCard";
+import { ProductGridSkeleton } from "@/components/ProductGridSkeleton/ProductGridSkeleton";
+import { StateMessage } from "@/components/StateMessage/StateMessage";
 import { FilterBar } from "@/features/catalog/FilterBar";
 import { useCatalogFilters } from "@/features/catalog/useCatalogFilters";
 import { getErrorMessage } from "@/utils/errors";
 import { formatPrice } from "@/utils/format";
+import { FavoriteButton } from "@/features/favorites/FavoriteButton";
 import styles from "@/pages/CatalogPage.module.scss";
 
 const PAGE_SIZE = 12;
@@ -30,7 +33,7 @@ export default function ClothesListPage() {
     staleTime: FIVE_MIN,
   });
 
-  const { data, isLoading, error } = useQuery({
+  const { data, isLoading, isFetching, error, refetch } = useQuery({
     queryKey: ["catalog", "clothes", filters],
     queryFn: () =>
       catalogApi.listClothes({
@@ -62,36 +65,53 @@ export default function ClothesListPage() {
         tags={tags.data}
       />
 
-      {error && <div className={styles.error}>{getErrorMessage(error)}</div>}
-      {isLoading && <p className={styles.info}>Yuklanmoqda...</p>}
-      {data && data.items.length === 0 && (
-        <p className={styles.info}>Hech narsa topilmadi</p>
-      )}
-
-      <div className={styles.grid}>
-        {data?.items.map((c) => (
-          <ProductCard
-            key={c.id}
-            to={`/clothes/${c.slug}`}
-            image={c.main_image}
-            title={c.name}
-            brand={c.brand}
-            meta={`${c.gender.name} · ${c.season.name}`}
-            price={
-              c.min_price ? formatPrice(c.min_price) : "Narx ko'rsatilmagan"
+      {isLoading ? (
+        <ProductGridSkeleton className={styles.grid} count={PAGE_SIZE} />
+      ) : error && !data ? (
+        <StateMessage
+          title="Yuklab bo'lmadi"
+          text={getErrorMessage(error)}
+          actionLabel="Qayta urinish"
+          onAction={() => refetch()}
+        />
+      ) : !data || data.items.length === 0 ? (
+        <StateMessage
+          title="Hech narsa topilmadi"
+          text="Filtrlarni o'zgartirib yoki qidiruvni tozalab ko'ring."
+        />
+      ) : (
+        <>
+          <div
+            className={
+              isFetching ? `${styles.grid} ${styles.fetching}` : styles.grid
             }
-          />
-        ))}
-      </div>
+          >
+            {data.items.map((c) => (
+              <ProductCard
+                key={c.id}
+                to={`/clothes/${c.slug}`}
+                image={c.main_image}
+                title={c.name}
+                brand={c.brand}
+                meta={`${c.gender.name} · ${c.season.name}`}
+                price={
+                  c.min_price ? formatPrice(c.min_price) : "Narx ko'rsatilmagan"
+                }
+                action={<FavoriteButton kind="clothes" id={c.id} />}
+              />
+            ))}
+          </div>
 
-      <Pagination
-        page={filters.page}
-        hasNext={hasNext}
-        onChange={(page) => {
-          update({ page });
-          window.scrollTo({ top: 0, behavior: "smooth" });
-        }}
-      />
+          <Pagination
+            page={filters.page}
+            hasNext={hasNext}
+            onChange={(page) => {
+              update({ page });
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
+          />
+        </>
+      )}
     </div>
   );
 }

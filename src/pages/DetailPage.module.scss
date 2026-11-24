@@ -181,3 +181,32 @@
   text-align: center;
   color: $color-muted;
 }
+
+.titleRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+@media (max-width: $bp-mobile) {
+  .page {
+    padding: 16px 0 40px;
+  }
+
+  .title {
+    font-size: 24px;
+  }
+
+  .price {
+    font-size: 22px;
+  }
+
+  .option {
+    padding: 10px 16px;
+  }
+
+  .relatedLink {
+    padding: 10px 14px;
+  }
+}

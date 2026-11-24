@@ -9,6 +9,7 @@ import ClothesListPage from "@/pages/ClothesListPage/ClothesListPage";
 import PatternsListPage from "@/pages/PatternsListPage/PatternsListPage";
 import ClothesDetailPage from "@/pages/ClothesDetailPage/ClothesDetailPage";
 import PatternDetailPage from "@/pages/PatternDetailPage/PatternDetailPage";
+import FavoritesPage from "@/pages/FavoritesPage/FavoritesPage";
 
 export const router = createBrowserRouter([
   {
@@ -25,6 +26,7 @@ export const router = createBrowserRouter([
           { path: "/profile", element: <ProfilePage /> },
           { path: "/clothes/:slug", element: <ClothesDetailPage /> },
           { path: "/patterns/:slug", element: <PatternDetailPage /> },
+          { path: "/favorites", element: <FavoritesPage /> },
         ],
       },
     ],

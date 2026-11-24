@@ -1,0 +1,27 @@
+@use "@/styles/variables" as *;
+
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  color: $color-text;
+  background: #fff;
+  border: 1px solid $color-border;
+  border-radius: 50%;
+  cursor: pointer;
+  transition:
+    transform 0.15s,
+    color 0.15s;
+
+  &:hover {
+    transform: scale(1.08);
+  }
+}
+
+.active {
+  color: $color-danger;
+  border-color: transparent;
+}

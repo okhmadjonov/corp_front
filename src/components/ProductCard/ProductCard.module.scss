@@ -1,65 +1,81 @@
 @use "@/styles/variables" as *;
 
 .card {
+  position: relative;
+  min-width: 0;
+}
+
+.link {
   display: flex;
   flex-direction: column;
   gap: 12px;
   color: inherit;
   text-decoration: none;
-}
 
-.imageWrap {
-  aspect-ratio: 3 / 4;
-  overflow: hidden;
-  background: $color-surface;
-  border-radius: $radius;
-
-  img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.3s;
+  &:hover .title {
+    text-decoration: underline;
   }
 }
 
-.card:hover .imageWrap img {
-  transform: scale(1.04);
-}
-
-.placeholder {
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 13px;
-  color: $color-muted;
-}
-
-.info {
+.body {
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 4px;
+  min-width: 0;
 }
 
 .brand {
   font-size: 12px;
+  letter-spacing: 0.5px;
   text-transform: uppercase;
-  letter-spacing: 1px;
   color: $color-muted;
 }
 
 .title {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 2.8em;
+  margin: 0;
   font-size: 15px;
   font-weight: 600;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
 }
 
 .meta {
+  overflow: hidden;
   font-size: 13px;
   color: $color-muted;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .price {
-  margin-top: 4px;
   font-size: 15px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.action {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+}
+
+@media (max-width: $bp-mobile) {
+  .title,
+  .price {
+    font-size: 14px;
+  }
+
+  .meta {
+    font-size: 12px;
+  }
+
+  .action {
+    top: 6px;
+    right: 6px;
+  }
 }

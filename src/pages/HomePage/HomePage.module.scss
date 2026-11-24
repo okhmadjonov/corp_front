@@ -64,3 +64,26 @@
   font-size: 14px;
   font-weight: 600;
 }
+
+@media (max-width: $bp-mobile) {
+  .page {
+    padding: 32px 0 48px;
+  }
+
+  .title {
+    font-size: 28px;
+  }
+
+  .subtitle {
+    margin-bottom: 24px;
+  }
+
+  .choice {
+    min-height: 200px;
+    padding: 24px;
+  }
+
+  .choiceTitle {
+    font-size: 26px;
+  }
+}

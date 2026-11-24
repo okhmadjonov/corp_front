@@ -2,10 +2,13 @@ import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { catalogApi } from "@/api/catalog";
 import { Pagination } from "@/components/Pagination/Pagination";
 import { ProductCard } from "@/components/ProductCard/ProductCard";
+import { ProductGridSkeleton } from "@/components/ProductGridSkeleton/ProductGridSkeleton";
+import { StateMessage } from "@/components/StateMessage/StateMessage";
 import { FilterBar } from "@/features/catalog/FilterBar";
 import { useCatalogFilters } from "@/features/catalog/useCatalogFilters";
 import { getErrorMessage } from "@/utils/errors";
 import { formatPrice } from "@/utils/format";
+import { FavoriteButton } from "@/features/favorites/FavoriteButton";
 import styles from "@/pages/CatalogPage.module.scss";
 
 const PAGE_SIZE = 12;
@@ -30,7 +33,7 @@ export default function PatternsListPage() {
     staleTime: FIVE_MIN,
   });
 
-  const { data, isLoading, error } = useQuery({
+  const { data, isLoading, isFetching, error, refetch } = useQuery({
     queryKey: ["catalog", "patterns", filters],
     queryFn: () =>
       catalogApi.listPatterns({
@@ -62,34 +65,51 @@ export default function PatternsListPage() {
         tags={tags.data}
       />
 
-      {error && <div className={styles.error}>{getErrorMessage(error)}</div>}
-      {isLoading && <p className={styles.info}>Yuklanmoqda...</p>}
-      {data && data.items.length === 0 && (
-        <p className={styles.info}>Hech narsa topilmadi</p>
-      )}
+      {isLoading ? (
+        <ProductGridSkeleton className={styles.grid} count={PAGE_SIZE} />
+      ) : error && !data ? (
+        <StateMessage
+          title="Yuklab bo'lmadi"
+          text={getErrorMessage(error)}
+          actionLabel="Qayta urinish"
+          onAction={() => refetch()}
+        />
+      ) : !data || data.items.length === 0 ? (
+        <StateMessage
+          title="Hech narsa topilmadi"
+          text="Filtrlarni o'zgartirib yoki qidiruvni tozalab ko'ring."
+        />
+      ) : (
+        <>
+          <div
+            className={
+              isFetching ? `${styles.grid} ${styles.fetching}` : styles.grid
+            }
+          >
+            {data.items.map((p) => (
+              <ProductCard
+                key={p.id}
+                to={`/patterns/${p.slug}`}
+                image={p.preview_image}
+                title={p.name}
+                brand={p.brand}
+                meta={`${p.gender.name} · ${p.season.name}`}
+                price={formatPrice(p.price)}
+                action={<FavoriteButton kind="patterns" id={p.id} />}
+              />
+            ))}
+          </div>
 
-      <div className={styles.grid}>
-        {data?.items.map((p) => (
-          <ProductCard
-            key={p.id}
-            to={`/patterns/${p.slug}`}
-            image={p.preview_image}
-            title={p.name}
-            brand={p.brand}
-            meta={`${p.gender.name} · ${p.season.name}`}
-            price={formatPrice(p.price)}
+          <Pagination
+            page={filters.page}
+            hasNext={hasNext}
+            onChange={(page) => {
+              update({ page });
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
           />
-        ))}
-      </div>
-
-      <Pagination
-        page={filters.page}
-        hasNext={hasNext}
-        onChange={(page) => {
-          update({ page });
-          window.scrollTo({ top: 0, behavior: "smooth" });
-        }}
-      />
+        </>
+      )}
     </div>
   );
 }

@@ -5,6 +5,7 @@ import { catalogApi } from "@/api/catalog";
 import { ImageGallery } from "@/components/ImageGallery/ImageGallery";
 import { getErrorMessage } from "@/utils/errors";
 import { formatPrice } from "@/utils/format";
+import { FavoriteButton } from "@/features/favorites/FavoriteButton";
 import styles from "@/pages/DetailPage.module.scss";
 
 export default function PatternDetailPage() {
@@ -39,17 +40,17 @@ export default function PatternDetailPage() {
 
         <div className={styles.info}>
           {data.brand && <div className={styles.brand}>{data.brand}</div>}
-          <h1 className={styles.title}>{data.name}</h1>
+          <div className={styles.titleRow}>
+            <h1 className={styles.title}>{data.name}</h1>
+            <FavoriteButton kind="clothes" id={data.id} />
+          </div>{" "}
           <div className={styles.meta}>
             {data.gender.name} · {data.season.name}
           </div>
-
           <div className={styles.price}>{formatPrice(data.price)}</div>
-
           {data.description && (
             <p className={styles.description}>{data.description}</p>
           )}
-
           <dl className={styles.specs}>
             {data.material && (
               <>
@@ -60,7 +61,6 @@ export default function PatternDetailPage() {
             <dt>Ko'rishlar</dt>
             <dd>{data.views_count}</dd>
           </dl>
-
           {data.tags.length > 0 && (
             <div className={styles.tags}>
               {data.tags.map((t) => (
@@ -74,7 +74,6 @@ export default function PatternDetailPage() {
               ))}
             </div>
           )}
-
           {data.clothes.length > 0 && (
             <div className={styles.related}>
               <h2 className={styles.relatedTitle}>

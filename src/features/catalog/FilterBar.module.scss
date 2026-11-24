@@ -58,6 +58,7 @@
   align-items: center;
   flex-wrap: wrap;
   gap: 12px;
+  min-width: 0;
 }
 
 .label {
@@ -70,6 +71,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+  min-width: 0;
 }
 
 .chip {
@@ -90,4 +92,51 @@
   color: #fff;
   background: $color-accent;
   border-color: $color-accent;
+}
+
+@media (max-width: $bp-mobile) {
+  .top {
+    flex-direction: column;
+  }
+
+  .search {
+    width: 100%;
+    max-width: none;
+    min-width: 0;
+  }
+
+  .sort {
+    width: 100%;
+  }
+
+  .group {
+    flex-direction: column;
+    align-items: flex-start;
+    flex-wrap: nowrap;
+    gap: 6px;
+    width: 100%;
+  }
+
+  .label {
+    width: auto;
+  }
+
+  /* chip'lar bir qatorda, barmoq bilan suriladi */
+  .chips {
+    flex-wrap: nowrap;
+    width: 100%;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .chip {
+    flex-shrink: 0;
+    white-space: nowrap;
+    padding: 8px 14px;
+  }
 }

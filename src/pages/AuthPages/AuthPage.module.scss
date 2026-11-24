@@ -82,3 +82,15 @@
     font-weight: 600;
   }
 }
+
+@media (max-width: $bp-mobile) {
+  .page {
+    align-items: flex-start;
+    padding-top: 32px;
+  }
+
+  .card {
+    padding: 24px 0;
+    border: 0;
+  }
+}
