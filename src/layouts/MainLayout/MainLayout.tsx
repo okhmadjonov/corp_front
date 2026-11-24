@@ -5,7 +5,7 @@ import { useAuth } from "@/features/auth/useAuth";
 import styles from "./MainLayout.module.scss";
 
 export default function MainLayout() {
-  const { user, logout } = useAuth();
+  const { user, loading, logout } = useAuth();
   const [open, setOpen] = useState(false);
 
   const close = () => setOpen(false);
@@ -64,8 +64,9 @@ export default function MainLayout() {
               )}
             </nav>
 
+            {/* sessiya tekshirilayotganda "Kirish" tugmasi miltillamasin */}
             <div className={styles.actions}>
-              {user ? (
+              {loading ? null : user ? (
                 <>
                   <Link
                     to="/profile"

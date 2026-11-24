@@ -1,35 +1,38 @@
 import axios, { AxiosError, type InternalAxiosRequestConfig } from 'axios'
-import { tokenStorage } from '@/utils/tokenStorage'
+import { session } from './session'
 import type { Tokens } from '@/types/auth'
 
 const baseURL = import.meta.env.VITE_API_URL as string
 
-export const api = axios.create({ baseURL })
+// Backend shu sarlavhaga qarab o'z cookie'sini beradi (admin va sayt sessiyalari alohida)
+const APP_HEADERS = { 'X-App': 'site' }
+
+// withCredentials: brauzer refresh cookie'ni o'zi yuboradi va saqlaydi
+export const api = axios.create({ baseURL, withCredentials: true, headers: APP_HEADERS })
 
 api.interceptors.request.use((config) => {
-  const token = tokenStorage.getAccess()
+  const token = session.get()
   if (token) config.headers.Authorization = `Bearer ${token}`
   return config
 })
 
 let refreshing: Promise<string> | null = null
 
-async function refreshAccessToken(): Promise<string> {
-  const refresh = tokenStorage.getRefresh()
-  if (!refresh) throw new Error('No refresh token')
-  try {
-    const { data } = await axios.post<Tokens>(`${baseURL}/auth/refresh`, {
-      refresh_token: refresh,
+/** Cookie orqali yangi access token oladi. Bir vaqtda ko'p chaqirilsa ham so'rov bitta. */
+export function refreshAccessToken(): Promise<string> {
+  refreshing ??= axios
+    .post<Tokens>(`${baseURL}/auth/refresh`, null, {
+      withCredentials: true,
+      headers: APP_HEADERS,
     })
-    tokenStorage.set(data.access_token, data.refresh_token)
-    return data.access_token
-  } catch (err) {
-    // Boshqa tab shu orada tokenni yangilagan bo'lsa (rotation), bizniki bekor
-    // bo'lgan — lekin localStorage'da yangisi bor, chiqib ketmasdan o'shani olamiz.
-    const access = tokenStorage.getAccess()
-    if (access && tokenStorage.getRefresh() !== refresh) return access
-    throw err
-  }
+    .then(({ data }) => {
+      session.set(data.access_token)
+      return data.access_token
+    })
+    .finally(() => {
+      refreshing = null
+    })
+  return refreshing
 }
 
 type RetryConfig = InternalAxiosRequestConfig & { _retry?: boolean }
@@ -44,15 +47,11 @@ api.interceptors.response.use(
     if (error.response?.status === 401 && original && !original._retry && !isAuthCall) {
       original._retry = true
       try {
-        // bir vaqtda ko'p so'rov 401 olsa, refresh faqat bir marta bajariladi
-        refreshing ??= refreshAccessToken().finally(() => {
-          refreshing = null
-        })
-        const token = await refreshing
+        const token = await refreshAccessToken()
         original.headers.Authorization = `Bearer ${token}`
         return api(original)
       } catch {
-        tokenStorage.clear()
+        session.set(null)
         window.dispatchEvent(new Event('auth:expired'))
       }
     }

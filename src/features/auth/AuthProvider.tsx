@@ -7,28 +7,33 @@ import {
 } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { authApi } from "@/api/auth";
-import { tokenStorage } from "@/utils/tokenStorage";
+import { refreshAccessToken } from "@/api/client";
+import { session } from "@/api/session";
 import type { Tokens, User } from "@/types/auth";
 import { AuthContext } from "./AuthContext";
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const qc = useQueryClient();
   const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(() =>
-    Boolean(tokenStorage.getAccess()),
-  );
+  // cookie bor-yo'qligini JS bilmaydi, shuning uchun har ochilishda tekshiramiz
+  const [loading, setLoading] = useState(true);
 
-  // sahifa yangilanganda token bo'yicha foydalanuvchini tiklaydi
+  const endSession = useCallback(() => {
+    session.set(null);
+    qc.removeQueries({ queryKey: ["favorites"] }); // katalog keshi umumiy, qoladi
+    setUser(null);
+  }, [qc]);
+
+  // sahifa ochilganda: httpOnly cookie orqali access token olib, foydalanuvchini tiklaydi
   useEffect(() => {
-    if (!tokenStorage.getAccess()) return;
     let cancelled = false;
 
-    authApi
-      .me()
+    refreshAccessToken()
+      .then(() => authApi.me())
       .then((me) => {
         if (!cancelled) setUser(me);
       })
-      .catch(() => tokenStorage.clear())
+      .catch(() => session.set(null)) // cookie yo'q — mehmon sifatida davom etadi
       .finally(() => {
         if (!cancelled) setLoading(false);
       });
@@ -38,21 +43,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     };
   }, []);
 
-  // sessiya (refresh token) tugasa, axios klienti shu hodisani yuboradi
+  // sessiya (refresh cookie) tugasa, axios klienti shu hodisani yuboradi
   useEffect(() => {
-    const onExpired = () => {
-      qc.removeQueries({ queryKey: ["favorites"] });
-      setUser(null);
-    };
-    window.addEventListener("auth:expired", onExpired);
-    return () => window.removeEventListener("auth:expired", onExpired);
-  }, [qc]);
+    window.addEventListener("auth:expired", endSession);
+    return () => window.removeEventListener("auth:expired", endSession);
+  }, [endSession]);
 
-  const startSession = useCallback(async (tokens: Tokens) => {
-    tokenStorage.set(tokens.access_token, tokens.refresh_token);
-    qc.removeQueries({ queryKey: ["favorites"] }); // boshqa akkauntning sevimlilari qolmasin
-    setUser(await authApi.me());
-  }, [qc]);
+  const startSession = useCallback(
+    async (tokens: Tokens) => {
+      session.set(tokens.access_token);
+      qc.removeQueries({ queryKey: ["favorites"] }); // boshqa akkauntning sevimlilari qolmasin
+      setUser(await authApi.me());
+    },
+    [qc],
+  );
 
   const login = useCallback(
     async (loginName: string, password: string) =>
@@ -67,12 +71,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   );
 
   const logout = useCallback(async () => {
-    const refresh = tokenStorage.getRefresh();
-    if (refresh) await authApi.logout(refresh).catch(() => undefined);
-    tokenStorage.clear();
-    qc.removeQueries({ queryKey: ["favorites"] });
-    setUser(null);
-  }, [qc]);
+    await authApi.logout().catch(() => undefined);
+    endSession();
+  }, [endSession]);
 
   const value = useMemo(
     () => ({ user, loading, login, register, logout }),

@@ -1,12 +1,13 @@
 import { useState, type FormEvent } from "react";
 import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { isAxiosError } from "axios";
+import { FullPageLoader } from "@/components/FullPageLoader/FullPageLoader";
 import { useAuth } from "@/features/auth/useAuth";
 import { getErrorMessage } from "@/utils/errors";
 import styles from "./AuthPage.module.scss";
 
 export default function LoginPage() {
-  const { user, login } = useAuth();
+  const { user, loading, login } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const fromLoc = (
@@ -23,6 +24,7 @@ export default function LoginPage() {
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
+  if (loading) return <FullPageLoader />;
   if (user) return <Navigate to={from} replace />;
 
   const onSubmit = async (e: FormEvent) => {
