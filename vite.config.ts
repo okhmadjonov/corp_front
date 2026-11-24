@@ -7,5 +7,6 @@ export default defineConfig({
   resolve: {
     alias: { '@': fileURLToPath(new URL('./src', import.meta.url)) },
   },
-  server: { port: 5173 },
+  // strictPort: port band bo'lsa boshqasiga o'tib ketmaydi (aks holda CORS buziladi)
+  server: { port: 3000, strictPort: true },
 })

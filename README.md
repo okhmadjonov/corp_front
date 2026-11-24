@@ -10,10 +10,10 @@ API: [corp_backend](https://github.com/okhmadjonov/corp_backend) — avval u ish
 ```bash
 npm install
 cp .env.example .env      # VITE_API_URL=http://localhost:8000
-npm run dev               # http://localhost:5173
+npm run dev               # http://localhost:3000
 ```
 
-> Saytni **`http://localhost:5173`** orqali oching (127.0.0.1 emas) va `VITE_API_URL` ham
+> Saytni **`http://localhost:3000`** orqali oching (127.0.0.1 emas) va `VITE_API_URL` ham
 > `localhost` bo'lsin. Sessiya httpOnly cookie'da, brauzer uni faqat bir xil host'ga yuboradi.
 
 **Auth**: access token faqat xotirada (`src/api/session.ts`), refresh token — backend qo'ygan
