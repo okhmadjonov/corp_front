@@ -5,12 +5,14 @@ import {
   useState,
   type ReactNode,
 } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import { authApi } from "@/api/auth";
 import { tokenStorage } from "@/utils/tokenStorage";
 import type { Tokens, User } from "@/types/auth";
 import { AuthContext } from "./AuthContext";
 
 export function AuthProvider({ children }: { children: ReactNode }) {
+  const qc = useQueryClient();
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(() =>
     Boolean(tokenStorage.getAccess()),
@@ -38,15 +40,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   // sessiya (refresh token) tugasa, axios klienti shu hodisani yuboradi
   useEffect(() => {
-    const onExpired = () => setUser(null);
+    const onExpired = () => {
+      qc.removeQueries({ queryKey: ["favorites"] });
+      setUser(null);
+    };
     window.addEventListener("auth:expired", onExpired);
     return () => window.removeEventListener("auth:expired", onExpired);
-  }, []);
+  }, [qc]);
 
   const startSession = useCallback(async (tokens: Tokens) => {
     tokenStorage.set(tokens.access_token, tokens.refresh_token);
+    qc.removeQueries({ queryKey: ["favorites"] }); // boshqa akkauntning sevimlilari qolmasin
     setUser(await authApi.me());
-  }, []);
+  }, [qc]);
 
   const login = useCallback(
     async (loginName: string, password: string) =>
@@ -64,8 +70,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const refresh = tokenStorage.getRefresh();
     if (refresh) await authApi.logout(refresh).catch(() => undefined);
     tokenStorage.clear();
+    qc.removeQueries({ queryKey: ["favorites"] });
     setUser(null);
-  }, []);
+  }, [qc]);
 
   const value = useMemo(
     () => ({ user, loading, login, register, logout }),

@@ -90,7 +90,7 @@ export default function PatternsListPage() {
               <ProductCard
                 key={p.id}
                 to={`/patterns/${p.slug}`}
-                image={p.preview_image}
+                image={p.preview_thumb ?? p.preview_image}
                 title={p.name}
                 brand={p.brand}
                 meta={`${p.gender.name} · ${p.season.name}`}

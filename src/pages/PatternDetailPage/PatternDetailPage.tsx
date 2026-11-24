@@ -42,7 +42,7 @@ export default function PatternDetailPage() {
           {data.brand && <div className={styles.brand}>{data.brand}</div>}
           <div className={styles.titleRow}>
             <h1 className={styles.title}>{data.name}</h1>
-            <FavoriteButton kind="clothes" id={data.id} />
+            <FavoriteButton kind="patterns" id={data.id} />
           </div>{" "}
           <div className={styles.meta}>
             {data.gender.name} · {data.season.name}

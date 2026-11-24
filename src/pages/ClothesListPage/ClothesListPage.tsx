@@ -90,7 +90,7 @@ export default function ClothesListPage() {
               <ProductCard
                 key={c.id}
                 to={`/clothes/${c.slug}`}
-                image={c.main_image}
+                image={c.main_thumb ?? c.main_image}
                 title={c.name}
                 brand={c.brand}
                 meta={`${c.gender.name} · ${c.season.name}`}

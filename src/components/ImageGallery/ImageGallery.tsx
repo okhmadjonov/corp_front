@@ -86,7 +86,11 @@ export function ImageGallery({ images, alt }: Props) {
               onClick={() => setIndex(i)}
               aria-label={`${i + 1}-rasm`}
             >
-              <SmartImage src={mediaUrl(img.url)} alt="" ratio="1 / 1" />
+              <SmartImage
+                src={mediaUrl(img.thumb_url ?? img.url)}
+                alt=""
+                ratio="1 / 1"
+              />
             </button>
           ))}
         </div>

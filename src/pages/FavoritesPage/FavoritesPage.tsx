@@ -71,7 +71,7 @@ export default function FavoritesPage() {
             <ProductCard
               key={c.id}
               to={`/clothes/${c.slug}`}
-              image={c.main_image}
+              image={c.main_thumb ?? c.main_image}
               title={c.name}
               brand={c.brand}
               meta={`${c.gender.name} · ${c.season.name}`}
@@ -87,7 +87,7 @@ export default function FavoritesPage() {
             <ProductCard
               key={p.id}
               to={`/patterns/${p.slug}`}
-              image={p.preview_image}
+              image={p.preview_thumb ?? p.preview_image}
               title={p.name}
               brand={p.brand}
               meta={`${p.gender.name} · ${p.season.name}`}

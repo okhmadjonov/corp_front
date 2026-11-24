@@ -2,15 +2,21 @@ import { useState, type FormEvent } from "react";
 import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { isAxiosError } from "axios";
 import { useAuth } from "@/features/auth/useAuth";
+import { getErrorMessage } from "@/utils/errors";
 import styles from "./AuthPage.module.scss";
 
 export default function LoginPage() {
   const { user, login } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const from =
-    (location.state as { from?: { pathname: string } } | null)?.from
-      ?.pathname ?? "/";
+  const fromLoc = (
+    location.state as {
+      from?: { pathname: string; search?: string; hash?: string };
+    } | null
+  )?.from;
+  const from = fromLoc
+    ? `${fromLoc.pathname}${fromLoc.search ?? ""}${fromLoc.hash ?? ""}`
+    : "/";
 
   const [loginValue, setLoginValue] = useState("");
   const [password, setPassword] = useState("");
@@ -30,7 +36,7 @@ export default function LoginPage() {
       if (isAxiosError(err) && err.response?.status === 401) {
         setError("Login yoki parol noto'g'ri");
       } else {
-        setError("Serverga ulanib bo'lmadi. Keyinroq urinib ko'ring");
+        setError(getErrorMessage(err));
       }
     } finally {
       setSubmitting(false);

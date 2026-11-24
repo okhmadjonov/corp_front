@@ -1,75 +1,26 @@
-# React + TypeScript + Vite
+# corp_front
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Corp katalogining sayti: tayyor kiyimlar va patternlar ro'yxati, filtr/qidiruv,
+batafsil sahifa (login kerak), sevimlilar, ro'yxatdan o'tish.
 
-Currently, two official plugins are available:
+API: [corp_backend](https://github.com/okhmadjonov/corp_backend) — avval u ishlab turishi kerak.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Ishga tushirish
 
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```bash
+npm install
+cp .env.example .env      # VITE_API_URL=http://127.0.0.1:8000
+npm run dev               # http://localhost:5173
 ```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+## Buyruqlar
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+| Buyruq | Vazifasi |
+|---|---|
+| `npm run dev` | Dev server |
+| `npm run build` | Tip tekshiruvi + production build |
+| `npm run lint` | ESLint |
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
-```
+## Stack
+Vite · React · TypeScript · React Router · React Query · axios · SCSS Modules (UI kutubxonasi yo'q).
+`@` = `src`. Filtrlar URL'da saqlanadi (`?gender=1&season=2&tag=yozgi&page=2`).

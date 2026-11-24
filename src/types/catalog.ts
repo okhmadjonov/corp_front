@@ -25,6 +25,7 @@ export interface ClothesCard {
   gender: NamedItem
   season: NamedItem
   main_image: string | null
+  main_thumb: string | null
   min_price: string | null
 }
 
@@ -38,6 +39,7 @@ export interface PatternCard {
   gender: NamedItem
   season: NamedItem
   preview_image: string | null
+  preview_thumb: string | null
 }
 
 
@@ -53,6 +55,7 @@ export interface VariantItem {
 export interface GalleryImage {
   id: number
   url: string
+  thumb_url?: string | null
   sort_order: number
   is_main: boolean
 }
@@ -82,6 +85,7 @@ export interface ClothesDetail {
 export interface PatternFileItem {
   id: number
   url: string
+  thumb_url: string | null
   kind: 'preview' | 'download'
   file_type: 'image' | 'pdf'
   sort_order: number
