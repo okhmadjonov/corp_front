@@ -1,0 +1,47 @@
+@use "@/styles/variables" as *;
+
+.btn {
+  border: 1px solid transparent;
+  border-radius: $radius;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.15s;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: default;
+  }
+}
+
+.md {
+  padding: 9px 16px;
+}
+.sm {
+  padding: 5px 10px;
+  font-size: 13px;
+}
+
+.primary {
+  color: #fff;
+  background: $color-primary;
+  &:hover:not(:disabled) {
+    background: $color-primary-dark;
+  }
+}
+
+.secondary {
+  color: $color-text;
+  background: $color-surface;
+  border-color: $color-border;
+  &:hover:not(:disabled) {
+    background: $color-bg;
+  }
+}
+
+.danger {
+  color: #fff;
+  background: $color-danger;
+  &:hover:not(:disabled) {
+    opacity: 0.9;
+  }
+}

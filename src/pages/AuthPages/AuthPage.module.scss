@@ -1,0 +1,84 @@
+@use "@/styles/variables" as *;
+
+.page {
+  min-height: calc(100vh - #{$header-height});
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+}
+
+.card {
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 32px;
+  border: 1px solid $color-border;
+  border-radius: $radius;
+}
+
+.title {
+  margin: 0 0 8px;
+  font-size: 24px;
+  text-align: center;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 14px;
+
+  input {
+    padding: 11px 12px;
+    font-size: 15px;
+    border: 1px solid $color-border;
+    border-radius: $radius;
+
+    &:focus {
+      outline: none;
+      border-color: $color-text;
+    }
+  }
+}
+
+.error {
+  padding: 10px 12px;
+  font-size: 14px;
+  color: $color-danger;
+  background: rgba($color-danger, 0.08);
+  border-radius: $radius;
+}
+
+.button {
+  padding: 12px;
+  font-size: 15px;
+  color: #fff;
+  background: $color-accent;
+  border: 0;
+  border-radius: $radius;
+  cursor: pointer;
+
+  &:hover:not(:disabled) {
+    background: $color-accent-hover;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: default;
+  }
+}
+
+.switch {
+  margin: 0;
+  font-size: 14px;
+  text-align: center;
+  color: $color-muted;
+
+  a {
+    color: $color-text;
+    font-weight: 600;
+  }
+}
