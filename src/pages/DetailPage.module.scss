@@ -1,0 +1,183 @@
+@use "@/styles/variables" as *;
+
+.page {
+  padding: 24px 0 56px;
+}
+
+.back {
+  display: inline-block;
+  margin-bottom: 20px;
+  font-size: 14px;
+  color: $color-muted;
+  text-decoration: none;
+
+  &:hover {
+    color: $color-text;
+  }
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 48px;
+
+  @media (max-width: 800px) {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.brand {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: $color-muted;
+}
+
+.title {
+  margin: 0;
+  font-size: 30px;
+}
+
+.meta {
+  font-size: 14px;
+  color: $color-muted;
+}
+
+.price {
+  font-size: 26px;
+  font-weight: 600;
+}
+
+.label {
+  margin-bottom: 8px;
+  font-size: 13px;
+  color: $color-muted;
+}
+
+.options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.option {
+  min-width: 44px;
+  padding: 8px 14px;
+  font-size: 14px;
+  color: $color-text;
+  background: #fff;
+  border: 1px solid $color-border;
+  border-radius: $radius;
+  cursor: pointer;
+
+  &:hover {
+    border-color: $color-text;
+  }
+}
+
+.optionOn {
+  color: #fff;
+  background: $color-accent;
+  border-color: $color-accent;
+}
+
+.optionOff {
+  color: $color-muted;
+  text-decoration: line-through;
+}
+
+.stock {
+  font-size: 14px;
+}
+
+.inStock {
+  color: $color-success;
+}
+
+.outOfStock {
+  color: $color-danger;
+}
+
+.description {
+  margin: 0;
+  line-height: 1.6;
+  white-space: pre-line;
+}
+
+.specs {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 6px 20px;
+  margin: 0;
+  font-size: 14px;
+
+  dt {
+    color: $color-muted;
+  }
+
+  dd {
+    margin: 0;
+  }
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tag {
+  padding: 5px 12px;
+  font-size: 13px;
+  color: $color-text;
+  text-decoration: none;
+  background: $color-surface;
+  border-radius: 999px;
+
+  &:hover {
+    background: $color-border;
+  }
+}
+
+.related {
+  margin-top: 8px;
+  padding-top: 20px;
+  border-top: 1px solid $color-border;
+}
+
+.relatedTitle {
+  margin: 0 0 12px;
+  font-size: 16px;
+}
+
+.relatedList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.relatedLink {
+  padding: 10px 16px;
+  font-size: 14px;
+  color: $color-text;
+  text-decoration: none;
+  border: 1px solid $color-border;
+  border-radius: $radius;
+
+  &:hover {
+    border-color: $color-text;
+  }
+}
+
+.notFound {
+  padding: 48px 0;
+  text-align: center;
+  color: $color-muted;
+}

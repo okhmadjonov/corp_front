@@ -1,0 +1,93 @@
+@use "@/styles/variables" as *;
+
+.bar {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+.top {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.search {
+  flex: 1;
+  min-width: 220px;
+  max-width: 420px;
+  display: flex;
+
+  input {
+    flex: 1;
+    min-width: 0;
+    padding: 10px 12px;
+    font-size: 14px;
+    border: 1px solid $color-border;
+    border-right: 0;
+    border-radius: $radius 0 0 $radius;
+
+    &:focus {
+      outline: none;
+      border-color: $color-text;
+    }
+  }
+
+  button {
+    padding: 0 16px;
+    font-size: 14px;
+    color: #fff;
+    background: $color-accent;
+    border: 0;
+    border-radius: 0 $radius $radius 0;
+    cursor: pointer;
+  }
+}
+
+.sort {
+  padding: 10px 12px;
+  font-size: 14px;
+  background: #fff;
+  border: 1px solid $color-border;
+  border-radius: $radius;
+}
+
+.group {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.label {
+  width: 80px;
+  font-size: 13px;
+  color: $color-muted;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  padding: 6px 14px;
+  font-size: 13px;
+  color: $color-text;
+  background: #fff;
+  border: 1px solid $color-border;
+  border-radius: 999px;
+  cursor: pointer;
+
+  &:hover {
+    border-color: $color-text;
+  }
+}
+
+.on {
+  color: #fff;
+  background: $color-accent;
+  border-color: $color-accent;
+}
