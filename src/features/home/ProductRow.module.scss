@@ -1,0 +1,21 @@
+@use "@/styles/variables" as *;
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 28px 20px;
+}
+
+.empty {
+  margin: 0;
+  padding: 32px 0;
+  text-align: center;
+  color: $color-muted;
+}
+
+@media (max-width: $bp-tablet) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px 12px;
+  }
+}

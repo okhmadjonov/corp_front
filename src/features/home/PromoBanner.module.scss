@@ -1,0 +1,122 @@
+@use "@/styles/variables" as *;
+
+.banner {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  align-items: center;
+  gap: 40px;
+  margin-top: 48px;
+  padding: 40px;
+  background: $color-surface;
+  border: 1px solid $color-border;
+  border-radius: $radius;
+}
+
+.eyebrow {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: $color-muted;
+}
+
+.title {
+  margin: 10px 0 14px;
+  font-size: 34px;
+  line-height: 1.15;
+}
+
+.desc {
+  margin: 0 0 24px;
+  line-height: 1.6;
+  color: $color-muted;
+}
+
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.primary,
+.secondary {
+  padding: 12px 22px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: $radius;
+}
+
+.primary {
+  color: #fff;
+  background: $color-accent;
+
+  &:hover {
+    background: $color-accent-hover;
+  }
+}
+
+.secondary {
+  color: $color-text;
+  border: 1px solid $color-text;
+
+  &:hover {
+    background: $color-bg;
+  }
+}
+
+.collage {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.frame {
+  display: block;
+  background: $color-image-bg;
+  border-radius: $radius;
+
+  // o'rtadagi rasm biroz pastroqda — "zinapoya" effekti
+  &:nth-child(2) {
+    transform: translateY(20px);
+  }
+}
+
+.img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  padding: 10px;
+  object-fit: contain;
+  mix-blend-mode: darken; // rasm foni ramka foniga singib ketadi
+}
+
+@media (max-width: $bp-tablet) {
+  .banner {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    padding: 28px 24px 40px;
+  }
+
+  .title {
+    font-size: 28px;
+  }
+}
+
+@media (max-width: $bp-mobile) {
+  .banner {
+    padding: 24px 16px 36px;
+  }
+
+  .title {
+    font-size: 24px;
+  }
+
+  .collage {
+    gap: 8px;
+  }
+
+  .frame:nth-child(2) {
+    transform: translateY(12px);
+  }
+}

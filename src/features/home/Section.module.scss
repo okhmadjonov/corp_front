@@ -1,0 +1,68 @@
+@use "@/styles/variables" as *;
+
+.section {
+  margin-top: 64px;
+}
+
+.head {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 28px;
+}
+
+.title {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-align: center;
+  text-transform: uppercase;
+
+  &::after {
+    content: "";
+    display: block;
+    width: 48px;
+    height: 2px;
+    margin: 12px auto 0;
+    background: $color-accent;
+  }
+}
+
+.more {
+  position: absolute;
+  right: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: $color-muted;
+  text-decoration: none;
+
+  &:hover {
+    color: $color-text;
+  }
+}
+
+@media (max-width: $bp-mobile) {
+  .section {
+    margin-top: 44px;
+  }
+
+  .head {
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .title {
+    font-size: 18px;
+  }
+
+  .more {
+    position: static;
+    font-size: 13px;
+  }
+}

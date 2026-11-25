@@ -6,6 +6,93 @@
   flex-direction: column;
 }
 
+/* ---------- 1-qavat: yuqori panel ---------- */
+
+.topbar {
+  font-size: 13px;
+  color: #fff;
+  background: $color-accent;
+}
+
+.topInner {
+  max-width: $container;
+  height: 40px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.tagline {
+  opacity: 0.75;
+}
+
+.topRight {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.auth {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.topLink {
+  color: inherit;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.sep {
+  opacity: 0.5;
+}
+
+.search {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+
+  input {
+    width: 180px;
+    padding: 4px 0;
+    font: inherit;
+    color: inherit;
+    background: none;
+    border: 0;
+    outline: none;
+
+    &::placeholder {
+      color: inherit;
+      opacity: 0.6;
+    }
+  }
+
+  button {
+    display: flex;
+    padding: 4px;
+    color: inherit;
+    background: none;
+    border: 0;
+    cursor: pointer;
+  }
+}
+
+/* topbardagi "Chiqish" tugmasi qora fonda ko'rinsin */
+.auth button {
+  color: #fff;
+  background: transparent;
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+/* ---------- 2-qavat: logo + menyu ---------- */
+
 .header {
   position: sticky;
   top: 0;
@@ -27,37 +114,28 @@
 }
 
 .logo {
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 800;
-  letter-spacing: 2px;
+  letter-spacing: 3px;
   text-decoration: none;
-}
-
-.burger {
-  display: none;
-  margin-left: auto;
-  padding: 8px;
-  color: $color-text;
-  background: none;
-  border: 0;
-  cursor: pointer;
 }
 
 .menu {
   flex: 1;
   display: flex;
-  align-items: center;
-  gap: 32px;
+  justify-content: center;
 }
 
 .nav {
   display: flex;
-  gap: 24px;
-  flex: 1;
+  gap: 32px;
 }
 
 .link {
-  font-size: 14px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
   color: $color-muted;
   text-decoration: none;
 
@@ -68,31 +146,36 @@
 
 .active {
   color: $color-text;
-  font-weight: 600;
 }
 
-.actions {
+.icons {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 4px;
 }
 
-.userName {
-  font-size: 14px;
-  text-decoration: none;
-}
-
-.cta {
-  padding: 8px 14px;
-  font-size: 14px;
-  color: #fff;
-  text-decoration: none;
-  background: $color-accent;
-  border-radius: $radius;
+.iconBtn {
+  display: flex;
+  padding: 8px;
+  font-size: 20px;
+  color: $color-text;
 
   &:hover {
-    background: $color-accent-hover;
+    color: $color-muted;
   }
+}
+
+.burger {
+  display: none;
+  padding: 8px;
+  color: $color-text;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.mobileOnly {
+  display: none;
 }
 
 .main {
@@ -103,16 +186,83 @@
   padding: 0 20px;
 }
 
+/* ---------- Footer ---------- */
+
 .footer {
-  padding: 24px 20px;
-  font-size: 13px;
-  text-align: center;
+  margin-top: 40px;
   color: $color-muted;
+  background: $color-surface;
   border-top: 1px solid $color-border;
 }
 
+.footerInner {
+  max-width: $container;
+  margin: 0 auto;
+  padding: 48px 20px 32px;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 32px;
+}
+
+.footerBrand {
+  .logo {
+    color: $color-text;
+  }
+
+  p {
+    max-width: 340px;
+    margin: 14px 0 0;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+}
+
+.footerCol {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 14px;
+
+  h4 {
+    margin: 0 0 6px;
+    font-size: 13px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: $color-text;
+  }
+
+  a {
+    text-decoration: none;
+
+    &:hover {
+      color: $color-text;
+    }
+  }
+}
+
+.copy {
+  padding: 18px 20px;
+  font-size: 13px;
+  text-align: center;
+  border-top: 1px solid $color-border;
+}
+
+/* ---------- Responsive ---------- */
+
 @media (max-width: $bp-tablet) {
+  .topbar {
+    display: none;
+  }
+
+  .inner {
+    justify-content: space-between;
+  }
+
   .burger {
+    display: block;
+  }
+
+  .mobileOnly {
     display: block;
   }
 
@@ -124,7 +274,7 @@
     right: 0;
     flex-direction: column;
     align-items: stretch;
-    gap: 20px;
+    gap: 16px;
     padding: 20px;
     background: $color-bg;
     border-bottom: 1px solid $color-border;
@@ -134,38 +284,54 @@
     display: flex;
   }
 
+  .search {
+    border: 1px solid $color-border;
+    border-radius: $radius;
+
+    input {
+      flex: 1;
+      width: auto;
+      padding: 10px 12px;
+    }
+
+    button {
+      padding: 10px 12px;
+    }
+  }
+
   .nav {
-    flex: none;
     flex-direction: column;
     gap: 4px;
   }
 
   .link {
     padding: 10px 0;
-    font-size: 16px;
+    font-size: 15px;
   }
 
   .actions {
-    flex-direction: column;
-    align-items: stretch;
+    display: flex;
+    align-items: center;
     gap: 10px;
     padding-top: 16px;
+    font-size: 15px;
     border-top: 1px solid $color-border;
   }
 
-  .userName {
-    font-size: 16px;
+  .footerInner {
+    grid-template-columns: 1fr 1fr;
+    padding-top: 36px;
   }
 
-  .cta {
-    padding: 11px 14px;
-    text-align: center;
+  .footerBrand {
+    grid-column: 1 / -1;
   }
 }
 
 @media (max-width: $bp-mobile) {
   .inner,
-  .main {
+  .main,
+  .footerInner {
     padding-left: 16px;
     padding-right: 16px;
   }

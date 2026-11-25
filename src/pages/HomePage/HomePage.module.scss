@@ -1,89 +1,11 @@
 @use "@/styles/variables" as *;
 
 .page {
-  padding: 56px 0 72px;
-  text-align: center;
-}
-
-.title {
-  margin: 0 0 8px;
-  font-size: 36px;
-}
-
-.subtitle {
-  margin: 0 0 40px;
-  color: $color-muted;
-}
-
-.choices {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 24px;
-}
-
-.choice {
-  min-height: 320px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  gap: 10px;
-  padding: 32px;
-  text-align: left;
-  text-decoration: none;
-  border-radius: $radius;
-  transition: transform 0.2s;
-
-  &:hover {
-    transform: translateY(-4px);
-  }
-}
-
-.dark {
-  color: #fff;
-  background: $color-accent;
-}
-
-.light {
-  color: $color-text;
-  background: $color-surface;
-  border: 1px solid $color-border;
-}
-
-.choiceTitle {
-  font-size: 32px;
-  font-weight: 700;
-}
-
-.choiceText {
-  font-size: 15px;
-  opacity: 0.8;
-}
-
-.arrow {
-  margin-top: 8px;
-  font-size: 14px;
-  font-weight: 600;
+  padding: 24px 0 72px;
 }
 
 @media (max-width: $bp-mobile) {
   .page {
-    padding: 32px 0 48px;
-  }
-
-  .title {
-    font-size: 28px;
-  }
-
-  .subtitle {
-    margin-bottom: 24px;
-  }
-
-  .choice {
-    min-height: 200px;
-    padding: 24px;
-  }
-
-  .choiceTitle {
-    font-size: 26px;
+    padding: 16px 0 48px;
   }
 }

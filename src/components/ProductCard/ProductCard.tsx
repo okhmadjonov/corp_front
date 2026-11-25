@@ -12,6 +12,8 @@ interface Props {
   meta?: string;
   price?: string;
   action?: ReactNode;
+  /** Rasm ustidagi belgi, masalan "Yangi" */
+  badge?: string;
 }
 
 export function ProductCard({
@@ -22,9 +24,11 @@ export function ProductCard({
   meta,
   price,
   action,
+  badge,
 }: Props) {
   return (
     <div className={styles.card}>
+      {badge && <span className={styles.badge}>{badge}</span>}
       <Link to={to} className={styles.link}>
         <SmartImage src={image ? mediaUrl(image) : null} alt={title} />
         <div className={styles.body}>

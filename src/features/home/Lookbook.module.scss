@@ -1,0 +1,80 @@
+@use "@/styles/variables" as *;
+
+.tabs {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.tab {
+  padding: 8px 18px;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  color: $color-muted;
+  background: none;
+  border: 1px solid $color-border;
+  border-radius: 999px;
+  cursor: pointer;
+
+  &:hover {
+    color: $color-text;
+  }
+}
+
+.on {
+  color: #fff;
+  background: $color-accent;
+  border-color: $color-accent;
+
+  &:hover {
+    color: #fff;
+  }
+}
+
+.strip {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: calc((100% - 4 * 12px) / 5);
+  gap: 12px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 8px;
+  scrollbar-width: thin;
+}
+
+.item {
+  display: block;
+  overflow: hidden;
+  scroll-snap-align: start;
+  background: $color-image-bg;
+  border-radius: $radius;
+
+  &:hover .img {
+    transform: scale(1.05);
+  }
+}
+
+.img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  padding: 14px;
+  object-fit: contain;
+  mix-blend-mode: darken; // rasm foni (oq yoki kulrang) plitka foniga singib ketadi
+  transition: transform 0.4s;
+}
+
+@media (max-width: $bp-tablet) {
+  .strip {
+    grid-auto-columns: calc((100% - 2 * 12px) / 3);
+  }
+}
+
+@media (max-width: $bp-mobile) {
+  .strip {
+    grid-auto-columns: 45%;
+    gap: 8px;
+  }
+}

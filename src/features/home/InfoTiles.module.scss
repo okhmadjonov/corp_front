@@ -1,0 +1,44 @@
+@use "@/styles/variables" as *;
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.tile {
+  padding: 32px 28px;
+  text-align: center;
+  background: $color-surface;
+  border: 1px solid $color-border;
+  border-radius: $radius;
+}
+
+.icon {
+  width: 40px;
+  height: 40px;
+  stroke-width: 1.5;
+}
+
+.title {
+  margin: 16px 0 8px;
+  font-size: 16px;
+}
+
+.text {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: $color-muted;
+}
+
+@media (max-width: $bp-tablet) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .tile {
+    padding: 24px 20px;
+  }
+}
